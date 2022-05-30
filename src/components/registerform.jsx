@@ -59,7 +59,7 @@ class RegistrationForm extends React.Component {
   console.log('Received values of form: ', values);
   const {confirm,...data } = values;  // ignore the 'confirm' value
     console.log("Json  ",JSON.stringify(data))
-    fetch('https://Rest-API-andDB.cycheng1688.repl.co/api/v1/users', {
+    fetch('https://VT6003CEMLiuPoHim217110981AssignmentBackend.him2077.repl.co/api/v1/users', {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

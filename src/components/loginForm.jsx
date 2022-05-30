@@ -41,7 +41,7 @@ static contextType = UserContext;
    
     const {username, password} = values;
     console.log(`logging in user: ${username}`)
-    fetch('https://Rest-API-andDB.cycheng1688.repl.co/api/v1/users/login', {
+    fetch('https://VT6003CEMLiuPoHim217110981AssignmentBackend.him2077.repl.co/api/v1/users/login', {
         method: "POST",
         headers: {
             "Authorization": "Basic " + btoa(username + ":" + password)
@@ -53,40 +53,41 @@ static contextType = UserContext;
         console.log('Logged in successfully');
         console.log("just login  ",user);  
         user.password=password;
+        
         this.context.login(user);  
-
-   //     alert(`Welcome ${username} ! Pls. press green button to continue!!`);
+        this.context.user.userID = user.id;
         console.log("alert login  ");       
     })
     .catch(error => {
-        // TODO: show nicely formatted error message
-        console.log('Login failed');
-        alert(`Sorry,  ${username} login failed !`);
+        console.log('Login failed' + error);
+        alert(`Sorry,  ${username} login failed !` + error);
     });        
 }
 
   render() 
-  { if(this.context.user.loggedIn==true) 
-   { //alert("You have already login")
-    return(<div>
-      <h2>Welcome {this.context.user.username} ! </h2>
-     <p> Pls. press green button to continue! <GoHomeButton /> </p> 
-    </div>)
-      
-      }
+  { 
+    if(this.context.user.loggedIn==true) 
+    { 
+      return(
+        <div>
+          <h2>Welcome {this.context.user.username} ! </h2>
+          <p> Pls. press green button to continue! <GoHomeButton /> </p> 
+        </div>
+      )
+    }
     else 
      return (
         <Form {...formItemLayout} name="login" scrollToFirstError onFinish={this.login}>
-            <Form.Item name="username" label="Username" rules={usernameRules} >
-                <Input />
-            </Form.Item>
-            <Form.Item name="password" label="Password" rules={passwordRules} hasFeedback >
-                <Input.Password />
-            </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-           <Button type="primary" htmlType="submit">Login</Button>        
- 
-           </Form.Item>
+          <Form.Item name="username" label="Username" rules={usernameRules} >
+              <Input />
+          </Form.Item>
+          <Form.Item name="password" label="Password" rules={passwordRules} hasFeedback >
+              <Input.Password />
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+         <Button type="primary" htmlType="submit">Login</Button>        
+
+         </Form.Item>
         </Form>
         
     );

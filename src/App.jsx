@@ -2,15 +2,14 @@ import React from 'react';
 import {  Layout,Space } from 'antd';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from './components/home';
+import Home from './page/home';
+import Account from './page/account';
+import Login from './page/login';
+import Img_Page from './page/img_Page';
+import Register from './page/register';
+import SearchDog from './page/searchDog';
+import MyDogPage from './page/myDogPage';
 import Nav from './components/nav';
-import About from './components/about';
-import Dashboard from './components/dashboard';
-import DetailArticle from './detailarticle';
-import Account from './components/account';
-import Login from './components/login';
-import Img_Page from './components/img_Page';
-import Register from './components/register';
 import UserContext from './contexts/user';
 import {useNavigate } from 'react-router-dom';
 const { Header, Content, Footer, Button} = Layout;
@@ -21,18 +20,19 @@ class App extends React.Component {
 constructor(props) {
   super(props);
   this.state = {
-    user: {loggedIn: false, password:"",    registerOK:false, userID:''}
+    user: {loggedIn: false, password:"", searched: false ,  registerOK:false, userID:''}
   }
   
   this.login = this.login.bind(this);
   this.logout = this.logout.bind(this);
+  this.search = this.search.bind(this);
   this.regComplete = this.regComplete.bind(this);
 }
    
 
 login(user) {
 
-  console.log("i m setting context")
+  console.log("login process")
   user.loggedIn = true;
   user.passward=user.password; 
   this.setState({user:user});
@@ -49,15 +49,22 @@ regComplete() {
   console.log("Registration completed");
   this.setState({user: {registerOK:true}});
 }   
+
+search(){
+  console.log("Searching completed");
+  this.setState({user: {searched:true}});
+}
   
   render(){
   const context = {
-  user: this.state.user,
-  login: this.login,
-  logout: this.logout,
-  regComplete:this.regComplete}; 
+    user: this.state.user,
+    login: this.login,
+    logout: this.logout,
+    search: this.search, 
+    regComplete:this.regComplete
+  }; 
   
-    
+  
   return(
    
     <Layout className="layout">
@@ -67,29 +74,20 @@ regComplete() {
         <Nav/>
         </Header> 
 	      <Content style={{ padding: '0 50px', height: '90%' }}>
-        <Space>
-        <Link to="/">Home</Link>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/about">About</Link>
-  
-          {!context.user.loggedIn&& <Link to="/login">Login</Link>}           {context.user.loggedIn&& <Link to="/account" style={{color:"red",background: "#91d5ff"}} type ="link" > Account: {context.user.username}  </Link>} 
-          {!context.user.registerOK&&!context.user.loggedIn&&<Link to="/register">Register</Link>}			      
-        </Space>
                        			
 				<Routes>
 						<Route exact path="/" element={<Home />} />
             <Route exact path="/register" element={<Register />} />
-						<Route path="/dashboard/:id" element={<DetailArticle />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/login"element={<Login />} />
-						<Route path="/about" element={<About />} />	
+						<Route path="/searchDog" element={<SearchDog />} />	
             <Route path="/account" element={<Account />} />	
+            <Route path="/myDogPage" element={<MyDogPage />} />	
             <Route path="/img_Page" element={<Img_Page />} />	
 				</Routes>			
 				</Content>
 				
        <Footer>
-					<p style={{ color: 'green' }}>VT6003CEM Demo</p>
+					<p style={{ color: 'green' }}>VT6003CEM Liu Po Him (217110981) Frontend</p>
 				</Footer>
 			</Router>	
   </UserContext.Provider>  

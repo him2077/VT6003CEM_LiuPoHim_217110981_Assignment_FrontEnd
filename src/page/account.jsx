@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css';
-import Profile from './accountProfile'
+import Profile from '../components/accountProfile'
   
 function Account() {
   return (

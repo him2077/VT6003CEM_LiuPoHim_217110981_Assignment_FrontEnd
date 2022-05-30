@@ -1,12 +1,12 @@
 import React from 'react';
-import RegistrationForm from './registerform';
+import RegistrationForm from '../components/registerform';
 
 function Register() {
   
   
   return (
     <> 
-    <h2 style={{ color: 'green' }}> Welcome to Blog User Registration</h2>     
+    <h2 style={{ color: 'green' }}> Register to Become a Member of Us</h2>     
      
       <RegistrationForm />
     </>

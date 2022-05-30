@@ -1,15 +1,15 @@
 import React from 'react';
 import '../App.css';
-import ImageUpload from './ImageUpload'
+import MyDog from '../components/myDog'
 
-function Img_Page() {
+function MyDogPage() {
   return (
     <> 
     <h2 style={{ color: 'green' }}> Upload image to Web API Server </h2>     
            
-      <ImageUpload />
+      <MyDog />
     </>
   )
 }
 
-export default Img_Page;
+export default MyDogPage;
