@@ -1,43 +1,73 @@
-import React, {  useContext, useState } from 'react';
-import { PageHeader, Input, message } from 'antd';
+import React, {useState} from 'react';
 import { status, json } from '/utilities/requestHandlers';
-import {Table, Alert, Select, Button, Form, Row, Col, AutoComplete} from 'antd';
-import { Tag, Space } from 'antd';
+import {Alert, Select, Button, Form, Row, Col, AutoComplete, Input } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-const { Column} = Table;
-const  { Search } = Input;
 import UserContext from '../contexts/user';
 import DogCard from './dogcard';
 
 
-
-
-function SearchDog(props) {
- const[dogsData,setDogs] = useState([]);
- const[isSearchOK,setSearch] = useState(false);
- const search = useContext(UserContext);
-  
-  const onSearch= (values) => {
-    console.log('Received values of form: ', values);
-    const {...data } = values; 
-      console.log("Json  ",JSON.stringify(data))
-    let urlPath="https://VT6003CEMLiuPoHim217110981AssignmentBackend.him2077.repl.co/api/v1/dogs/searchDog"; 
+function SearchDog (props) {
+  const [Dogs, SetDogs] = useState([]);
+  const[isSearchOK,setSearch]=useState(false);
+  let IsSearch =false;
+    const onSearch= (formdata) => {
+      console.log('Received data of form: ', formdata);
+      
+      let conditions = JSON.stringify(formdata)
+      console.log('conditions: ', conditions);
+      
+      let object = JSON.parse(conditions)
+      console.log('object: ', object);
+      
+      let keys = Object.keys(object)
+      console.log('keys: ', keys);
+      
+      let values = Object.values(object) 
+      console.log('values: ', values);
+      
+        let query = "";
+        for(let i = 0; i < values.length; i++){
+          if(i != 0){
+            query += `AND_`
+          }
+          console.log(`keys ${i}: `, keys[i]);
+          switch(keys[i]){
+            case 'name':
+              query += `WHERE_${keys[i]}_LIKE_'%${values[i]}%'_`;
+              break;
+            case 'gender':
+              query += `WHERE_${keys[i]}_=_'${values[i]}'_`;
+              break;
+            case 'breed':
+              query += `WHERE_${keys[i]}_LIKE_'%${values[i]}%'_`;
+              break;
+            case 'id':
+              query += `WHERE_${keys[i]}_=_${values[i]}_`;
+              break;
+            case 'age':
+              query += `WHERE_${keys[i]}_<_${values[i]}_`;          
+              break;
+          }
+        }
+    console.log('query: ', query);
+    let urlPath="https://VT6003CEMLiuPoHim217110981AssignmentBackend.him2077.repl.co/api/v1/dogs/searchDog?fields=" + query; 
     console.log("urlPath ",urlPath)
     return(fetch(`${urlPath}`,
        {
-        method: "Get",
-        body: JSON.stringify(data),
+        method: "GET",
         headers: {"Content-Type": "application/json"}
        }      
     )
     .then(status)
     .then(json)
     .then(data => { 
-     console.log("dog return  ",JSON.stringify(data) );
-     console.log("dog data  ",data );
-     setDogs(data);
-     setSearch(true); 
-      value="";
+      SetDogs([]);
+      console.log(" data", typeof(data));
+      SetDogs(data);
+      console.log(" Dogs", Dogs);
+      setSearch(true);
+      IsSearch = true;
+      values="";
     })
     .catch(err => console.log("Error fetching dogs", err)) 
     ) 
@@ -46,7 +76,7 @@ function SearchDog(props) {
   const AdvancedSearchForm = () => {
   
     const [form] = Form.useForm();
-    const fieldName = ["DogName", "Breed", "Gender", "ID", "Age"];
+    const fieldName = ["name", "breed", "gender", "id", "age"];
     const placeholder = ["Input Name", "e.g: bulldog","","ID of Dog","Maximum Age"];
 
     const fieldLabel = ["Dog Name: ", "Breed: ", "Gender: ", "ID: ", "Age: "];
@@ -68,7 +98,7 @@ function SearchDog(props) {
                     </AutoComplete.Option>
                     
                     <AutoComplete.Option key="goldenretriever" 
-                      value="Golden Retriever">Golden Retriever
+                      value="GoldenRetriever">Golden Retriever
                     </AutoComplete.Option>
                     
                     <AutoComplete.Option key="germanshepherd" 
@@ -122,18 +152,24 @@ function SearchDog(props) {
     );
   };
   
-    const cardList = dogsData.map(dog => {
+    const CardList = () => {
+      console.log(" Dogs", Dogs.lengh)
+      
       return (
-        <div style={{padding:"10px"}} key={dog.id} >
-          <Col span={6}>
- 
-            <DogCard {...dog} />  
-            
-
-          </Col>          
-         </div>
+        Dogs.map(
+          dog => {
+            console.log(" Dogs", dog)
+            return (
+            <div style={{padding:"10px"}} key={dog.id} >
+              <Col span={6}>
+                <DogCard {...dog} />      
+              </Col>          
+             </div>
+            )
+          }
+        )
       )
-    });
+    } 
   
   return (
    <>
@@ -144,10 +180,12 @@ function SearchDog(props) {
       </Col>
 
     </Row>  
-     {isSearchOK&&<cardList/>}
+     {isSearchOK&&<CardList/>}
 
   </>
   );
+  
+
 }
 
 export default SearchDog;

@@ -38,7 +38,6 @@ const usernameRules = [
 
 /**
  * Registration form component for app signup.
-
  */
  
 

@@ -61,12 +61,12 @@ class PostIcon extends React.Component {
 
 postLike() 
 {
-if(this.props.type=='like'&&this.context.user.username!="undefined"){ 
-console.log(`logging in user: ${this.context.user.username} password: ${this.context.user.password}`)
+  if(this.props.type=='like'&&this.context.user.username!="undefined"){ 
+    //console.log(`logging in user: ${this.context.user.username} password: ${this.context.user.password}`)
    return (fetch(this.props.countLink, {
         method: "POST",
         headers: {
-            "Authorization": "Basic " + btoa(`${this.context.user.username}:${this.context.user.password}`)
+            "Authorization": "Basic " +     btoa(`${this.context.user.username}:${this.context.user.password}`)
         }        
     }).then(status)
       .then(json)

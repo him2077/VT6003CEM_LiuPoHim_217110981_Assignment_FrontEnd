@@ -38,12 +38,6 @@ function Nav(props) {
         <Menu.Item key="5" type="primary" >
           {user.loggedIn&&<Link to="/myDogPage">My Dogs</Link>}
         </Menu.Item>
-        <Menu.Item key="6" type="primary" >
-          {user.loggedIn&&<Link to="/img_Page">UploadImage</Link>}
-        </Menu.Item>
-        <Menu.Item key="7" onClick={logout} type="primary" >
-          {user.loggedIn&&<Link to="/">Logout</Link>}
-        </Menu.Item>
         
         </Menu>  
    </>

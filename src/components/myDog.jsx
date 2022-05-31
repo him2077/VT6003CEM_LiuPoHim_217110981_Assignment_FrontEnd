@@ -6,17 +6,19 @@ import UserContext from '../contexts/user';
 
 
 class MyDog extends React.Component {
-  static contextType = Context
+    static contextType = UserContext
   
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: [],
+    constructor(props) {
+      super(props);
+      this.state = {
+        posts: []
+      }
     }
-  }
+  
   componentDidMount() { 
-  const userdata = this.context; fetch(`https://VT6003CEMLiuPoHim217110981AssignmentBackend.him2077.repl.co/api/v1/dogs/user/${userdata.user.userID}`, {
-        method: "GET"               
+  const userdata = this.context; 
+    fetch(`https://VT6003CEMLiuPoHim217110981AssignmentBackend.him2077.repl.co/api/v1/dogs/user/${userdata.user.userID}`, {
+        method: "GET",               
     })
     .then(status)
     .then(json)
@@ -28,6 +30,7 @@ class MyDog extends React.Component {
 
 
 }
+
 
   render() {
     if (!this.state.posts.length) {

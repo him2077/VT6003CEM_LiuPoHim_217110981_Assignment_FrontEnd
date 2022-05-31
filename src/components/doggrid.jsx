@@ -12,7 +12,7 @@ class DogGrid extends React.Component {
       posts: [],
     }
   }
-  const user
+  
   componentDidMount() {
     fetch('https://VT6003CEMLiuPoHim217110981AssignmentBackend.him2077.repl.co/api/v1/dogs/', {
         method: "GET"               
@@ -20,8 +20,10 @@ class DogGrid extends React.Component {
     .then(status)
     .then(json)
     .then(data => {
+  //    console.log('data: ', data);
+  //    console.log('Type of post: ', typeof(this.state.posts));
       this.setState({ posts: data })
- //   console.log("post ", data)
+  //   console.log("post ", data)
   })
   .catch(err => console.log("Error fetching dogs", err));
 
@@ -34,6 +36,7 @@ class DogGrid extends React.Component {
     }
     // the next line does the Array.map() operation on the posts
     // to create an array of React elements to be rendered
+    console.log('posts: ',  this.state.posts);
     const cardList = this.state.posts.map(post => {
       return (
         <div style={{padding:"10px"}} key={post.id} >
